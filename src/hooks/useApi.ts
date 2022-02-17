@@ -4,20 +4,23 @@ import api from "../services/api";
 export default function useFetch<T = unknown>(url: string) {
 
   const [data, setData] = useState<T | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
+  useEffect(  () => {
     try {
-      const res = api
+      const res =  api
         .get(url)
-        .then((response) => { console.log(response); setData(response.data) })
+        .then((response) => { setData(response.data) })
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
+          setError(err);
         })
     }
     catch (e) {
-      console.log(e)
+      setLoading(false);
     }
   })
 
-  return { data };
+  return { data, error, loading };
 }

@@ -35,7 +35,7 @@ export default function Orders() {
 
   const [orders, setOrders] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState<Error | null>(null);
   
   const navigate = useNavigate();
   
@@ -43,7 +43,7 @@ export default function Orders() {
     try {
       const res = await  api
         .get("/orders")
-        .then((response) => { console.log(response); setOrders(response.data) })
+        .then((response) => {  setOrders(response.data) })
         .catch((err) => {
           console.error("ops! ocorreu um erro" + err);
           setError(err);
